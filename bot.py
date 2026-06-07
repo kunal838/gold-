@@ -2,9 +2,10 @@ import os
 import requests
 import yfinance as yf
 
-# 1. Fetch live global data and currency conversion
-gold_usd = yf.Ticker("XAUUSD=X").history(period="1d")['Close'].iloc[-1]
-silver_usd = yf.Ticker("XAGUSD=X").history(period="1d")['Close'].iloc[-1]
+# 1. Fetch live global futures data and currency conversion
+# GC=F is Gold Futures, SI=F is Silver Futures
+gold_usd = yf.Ticker("GC=F").history(period="1d")['Close'].iloc[-1]
+silver_usd = yf.Ticker("SI=F").history(period="1d")['Close'].iloc[-1]
 usd_inr = yf.Ticker("INR=X").history(period="1d")['Close'].iloc[-1]
 
 # 2. Convert to INR per standard Indian weights
@@ -31,7 +32,6 @@ _(Calculated with standard duties/GST. Local jewelry store making charges are no
 token = os.environ['TELEGRAM_BOT_TOKEN']
 chat_id = os.environ['TELEGRAM_CHAT_ID']
 
-# Note: We switched back to 'sendMessage' instead of 'sendPhoto'
 url = f"https://api.telegram.org/bot{token}/sendMessage"
 
 requests.post(url, json={
